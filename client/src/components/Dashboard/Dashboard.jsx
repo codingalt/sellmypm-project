@@ -10,42 +10,36 @@ import { TailSpin } from "react-loader-spinner";
 import MainContext from "../Context/MainContext";
 
 const Dashboard = () => {
-  const {isAuthenticated} = useContext(MainContext); 
+  const { isAuthenticated } = useContext(MainContext);
   const [active, setActive] = useState(true);
   const [loader, setLoader] = useState(null);
   const toggleSidebar = () => {
     setActive(!active);
   };
 
- 
   return (
     <>
-    {
-      <sidebarContext.Provider
-      value={{ isOpen: active, toggle: toggleSidebar }}
-    >
-      {/* Sidebar */}
-      {<Sidebar />}
+      {
+        <sidebarContext.Provider
+          value={{ isOpen: active, toggle: toggleSidebar }}
+        >
+          {/* Sidebar */}
+          {<Sidebar />}
 
-      {/* Main Content */}
-      <main className={active ? "main" : "main main-reverse"}>
-     
-        {/* Navbar */}
-        <Navbar />
+          {/* Main Content */}
+          <main className={active ? "main" : "main main-reverse"}>
+            {/* Navbar */}
+            <Navbar />
 
-        {/* Cards  */}
-        {
-          isAuthenticated && 
-          <>
-          <Cards />
-        </>
-        }
-    
-      </main>
-      
-    </sidebarContext.Provider>
-    }
-
+            {/* Cards  */}
+            {isAuthenticated && (
+              <>
+                <Cards />
+              </>
+            )}
+          </main>
+        </sidebarContext.Provider>
+      }
     </>
   );
 };

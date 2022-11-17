@@ -60,3 +60,29 @@
 .action-div .delete{
     font-size: 1.5rem;
 }
+
+@media screen and (max-width:768px) {
+    .search-all-listing{
+        width: 86%;
+        margin: 1rem auto;
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap:1rem;
+        flex-direction: column;
+    }
+    
+    .search-all-listing input{
+        width: 95%;
+        height: 3.1rem;
+        border: none;
+        outline: none;
+        padding-left: 1rem;
+        border-radius: 8px;
+    }
+    
+    .search-all-listing button{
+        width: 95%;
+    }
+}

@@ -3,18 +3,76 @@ import Sidebar from "../../sidebar/Sidebar";
 import Navbar from "../../navbar/Navbar";
 import { sidebarContext } from "../../contexts/SidebarContext";
 import { useNavigate } from "react-router-dom";
-import { TailSpin } from "react-loader-spinner";
 import MainContext from "../../../Context/MainContext";
 import ManageListings from "../ManageListings/ManageListings";
-import CreateAdvisor from "../CreateAdvisor/CreateAdvisor";
 import NotFound404 from "../../../NotFound404/NotFound404";
+import { toast, ToastContainer } from "react-toastify";
+import { TailSpin } from "react-loader-spinner";
+import ListingControl from "../ListingControl/ListingControl";
 
-const CreateAdvisorPage = () => {
+const ListingControlPage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { isAdmin } = useContext(MainContext);
+  const [listingId, setListingId] = useState("");
   const navigate = useNavigate();
   const [active, setActive] = useState(true);
   const [loader, setLoader] = useState(null);
+  const [deleted, setDeleted] = useState(false);
+  const toastHandle = (result, message) => {
+    if (result) {
+      toast.success(message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      toast.error(message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
+
+  const deleteListing = async (item) => {
+    setLoader(true);
+    try {
+      const res = await fetch(`/listing/${item._id}`, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      if (data.success) {
+        toastHandle(true, "Listing Deleted Successfully");
+        setDeleted(true);
+      } else {
+        toastHandle(false, "Something went wrong! Please try again.");
+      }
+      setLoader(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleListingId = () => {
+    // setListingId(props.listing._id)
+  };
+
+  useEffect(() => {
+    handleListingId();
+  }, []);
+
   const sidebarRef = useRef();
   const toggleSidebar = () => {
     setActive(false);
@@ -46,7 +104,6 @@ const CreateAdvisorPage = () => {
 
   useEffect(() => {
     Authenticate();
-    console.log(isAdmin);
   }, []);
   useEffect(() => {
     const handler = (event) => {
@@ -65,7 +122,13 @@ const CreateAdvisorPage = () => {
     <>
       {isAdmin ? (
         <sidebarContext.Provider
-          value={{ isOpen: active, toggle: toggleSidebar, sidebarRef }}
+          value={{
+            isOpen: active,
+            toggle: toggleSidebar,
+            sidebarRef,
+            deleted: deleted,
+            deleteListing,
+          }}
         >
           {/* Sidebar */}
           {<Sidebar />}
@@ -74,7 +137,7 @@ const CreateAdvisorPage = () => {
           <main className={active ? "main" : "main main-reverse"}>
             <Navbar />
 
-            {<CreateAdvisor />}
+            {<ListingControl />}
           </main>
         </sidebarContext.Provider>
       ) : (
@@ -84,4 +147,4 @@ const CreateAdvisorPage = () => {
   );
 };
 
-export default CreateAdvisorPage;
+export default ListingControlPage;

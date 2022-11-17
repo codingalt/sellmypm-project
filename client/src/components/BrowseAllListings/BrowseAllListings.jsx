@@ -16,7 +16,7 @@ import ListingSkeleton from "../ListingSkeleton/ListingSkeleton";
 import MainContext from "../Context/MainContext";
 
 const BrowseAllListings = () => {
-  const { isPaid } = useContext(MainContext);
+  const { isPaid, isAuthenticated } = useContext(MainContext);
   const [categoryId, setCategoryId] = useState("");
   const [loader, setLoader] = useState(true);
   const [noListing, setNoListing] = useState(false);
@@ -24,7 +24,7 @@ const BrowseAllListings = () => {
   const [wanted, setWanted] = useState([]);
   const [forSell, setForSell] = useState([]);
   const [listings, setListings] = useState([]);
-  const [keyword,setKeyword] = useState("l");
+  const [keyword, setKeyword] = useState("l");
   const { paramsCategoryId } = useParams();
   const navigate = useNavigate();
 
@@ -131,9 +131,9 @@ const BrowseAllListings = () => {
     }
   };
 
-  const handleSearch = (e)=>{
+  const handleSearch = (e) => {
     setKeyword(e.target.value);
-  }
+  };
 
   useEffect(() => {
     getListingsByCategory();
@@ -178,8 +178,8 @@ const BrowseAllListings = () => {
     }
   };
 
-  const handleKeyDown = event => {
-    if (event.key === 'Enter') {
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
       getListingBySearch();
     }
   };
@@ -188,11 +188,11 @@ const BrowseAllListings = () => {
     getCategories();
   }, []);
 
-  useEffect(()=>{
-    if(keyword === ""){
+  useEffect(() => {
+    if (keyword === "") {
       getAllListings();
     }
-  },[keyword])
+  }, [keyword]);
 
   return (
     <div className="browse-all-listings">
@@ -247,7 +247,12 @@ const BrowseAllListings = () => {
               </div>
               <div className="col-md-3 filter-right">
                 <div className="nav-search">
-                  <input type="text" onKeyDown={handleKeyDown} onChange={event => setKeyword(event.target.value)} placeholder="Search by Country.." />
+                  <input
+                    type="text"
+                    onKeyDown={handleKeyDown}
+                    onChange={(event) => setKeyword(event.target.value)}
+                    placeholder="Search by Country.."
+                  />
                   <bs.BsSearch className="icon" />
                 </div>
               </div>
@@ -269,50 +274,47 @@ const BrowseAllListings = () => {
         )}
 
         <div className="row cat-container">
-          {slicedData
-            ?.slice(0)
-            .reverse()
-            .map((item, i) => {
-              return (
-                <div key={item._id} className="card-container col-md-3 border">
-                  <NavLink key={item._id} to={"/listings/view/" + item._id}>
-                    {<img loading="lazy" src={item.images[0].url} alt="" />}
-                    <div className="cat-title">
-                      <h5>{item.details.title}</h5>
-                    </div>
-                    <div className="member-txt">
-                      {!isPaid ? (
-                        <NavLink className="upgrade" to={"/"}>
-                          <span>
-                            <bi.BiLockAlt /> Upgrade for Pricing
-                          </span>
-                        </NavLink>
-                      ) : (
-                        <NavLink
-                          className="upgrade"
-                          to={"/listings/view/" + item._id}
-                        >
-                          <span>Contact for details</span>
-                        </NavLink>
-                      )}
+          {slicedData?.map((item, i) => {
+            return (
+              <div key={item._id} className="card-container col-md-3 border">
+                <NavLink key={item._id} to={"/listings/view/" + item._id}>
+                  {<img loading="lazy" src={item.images[0].url} alt="" />}
+                  <div className="cat-title">
+                    <h5>{item.details.title}</h5>
+                  </div>
+                  <div className="member-txt">
+                    {!isPaid ? (
+                      <NavLink className="upgrade" to={"/"}>
+                        <span>
+                          <bi.BiLockAlt /> Upgrade for Pricing
+                        </span>
+                      </NavLink>
+                    ) : (
+                      <NavLink
+                        className="upgrade"
+                        to={"/listings/view/" + item._id}
+                      >
+                        <span>Contact for details</span>
+                      </NavLink>
+                    )}
 
-                      {isPaid ? (
-                        <NavLink
-                          className="view-more"
-                          to={"/listings/view/" + item._id}
-                        >
-                          <span>View More Info</span>
-                        </NavLink>
-                      ) : (
-                        <NavLink className="view-more" to={"/login"}>
-                          <span>Login for more</span>
-                        </NavLink>
-                      )}
-                    </div>
-                  </NavLink>
-                </div>
-              );
-            })}
+                    {isAuthenticated ? (
+                      <NavLink
+                        className="view-more"
+                        to={"/listings/view/" + item._id}
+                      >
+                        <span>View More Info</span>
+                      </NavLink>
+                    ) : (
+                      <NavLink className="view-more" to={"/login"}>
+                        <span>Login for more</span>
+                      </NavLink>
+                    )}
+                  </div>
+                </NavLink>
+              </div>
+            );
+          })}
 
           {noListing && listings.length === 0 && (
             <div className="empty-listings">

@@ -3,19 +3,17 @@ import Modal from "react-bootstrap/Modal";
 import { TailSpin } from "react-loader-spinner";
 import MainContext from "../../../Context/MainContext";
 import { toast, ToastContainer } from "react-toastify";
-import "./confirm-model.css";
 import { useEffect } from "react";
-import ManageListings from "../../Admin/ManageListings/ManageListings";
 import { sidebarContext } from "../../contexts/SidebarContext";
 
-const ConfirmModel = (props) => {
+const IncreaseListingModel = (props) => {
   const [loader, setLoader] = useState(false);
   const { isAuthenticated } = useContext(MainContext);
-  const { deleteListing, deleted } = useContext(sidebarContext);
+  const [numListing, setNumListing] = useState(1);
 
   useEffect(() => {
     props.onHide();
-  }, [deleted]);
+  }, []);
 
   return (
     <>
@@ -38,17 +36,42 @@ const ConfirmModel = (props) => {
         aria-labelledby="contained-modal-title-vcenter"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Are you Sure?</Modal.Title>
+          <Modal.Title>Increase User Listings</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div
             className="confirm"
             style={{ display: "flex", flexDirection: "column", gap: "10px" }}
           >
+            <span>Enter the number of listings you want to increase</span>
             <span style={{ fontSize: "1.3rem", fontWeight: "600" }}>
-              Do you really want to delete this listing ?
+              By default Premium user can post 3 listings per month / year
             </span>
-            <span>Clicking Delete will delete this listing permanently</span>
+          </div>
+          <div className="row">
+            <div className="col-md-12">
+              <div className="form-group mt-3">
+                <label>Number of Listings</label>
+                <select
+                  className="form-select mt-3"
+                  required
+                  style={{ height: "3.1rem" }}
+                  onChange={(e) => setNumListing(e.target.value)}
+                >
+                  <option value="">Select Number of Listings</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
           </div>
           <div className="confirm-buttons mt-4">
             <button
@@ -58,10 +81,10 @@ const ConfirmModel = (props) => {
               Cancel
             </button>
             <button
-              onClick={() => deleteListing(props.listing)}
-              className="btn btn-danger"
+              onClick={() => props.increaseListing(numListing)}
+              className="btn btn-primary"
             >
-              Delete
+              Increase Listings
             </button>
           </div>
         </Modal.Body>
@@ -70,4 +93,4 @@ const ConfirmModel = (props) => {
   );
 };
 
-export default ConfirmModel;
+export default IncreaseListingModel;

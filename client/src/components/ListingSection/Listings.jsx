@@ -48,9 +48,7 @@ const Listings = () => {
           <h2 className="section-title">Latest Listings</h2>
         </div>
         <div className="row cat-container custom-cat-container">
-          {listings
-            ?.filter((val, index, arr) => index > arr.length - 7)
-            .map((item, i) => {
+          {listings?.slice(0,6).map((item, i) => {
               return (
                 <div key={item._id} className="card-container border">
                   <NavLink key={item._id} to={"/listings/view/" + item._id}>
@@ -60,23 +58,29 @@ const Listings = () => {
                     </div>
                     <div className="member-txt">
                       {!isPaid ? (
-                        <NavLink className='upgrade' to={'/'}>
+                        <NavLink className="upgrade" to={"/"}>
                           <span>
                             <bi.BiLockAlt /> Upgrade for Pricing
                           </span>
                         </NavLink>
                       ) : (
-                        <NavLink className='upgrade' to={"/listings/view/" + item._id}>
+                        <NavLink
+                          className="upgrade"
+                          to={"/listings/view/" + item._id}
+                        >
                           <span>Contact for details</span>
                         </NavLink>
                       )}
 
                       {isPaid ? (
-                        <NavLink className='view-more' to={"/listings/view/" + item._id}>
+                        <NavLink
+                          className="view-more"
+                          to={"/listings/view/" + item._id}
+                        >
                           <span>View More Info</span>
                         </NavLink>
                       ) : (
-                        <NavLink className='view-more' to={"/login"}>
+                        <NavLink className="view-more" to={"/login"}>
                           <span>Login for more</span>
                         </NavLink>
                       )}

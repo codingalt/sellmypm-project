@@ -39,6 +39,7 @@ const MyListings = () => {
         },
       });
       const data = await res.json();
+      console.log(data);
       if (data.length !== 0) {
         setMyListings(data);
       } else {
@@ -102,7 +103,7 @@ const MyListings = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {slicedData?.slice(0).reverse().map((item, i) => {
+                    {slicedData?.map((item, i) => {
                       return (
                         <tr key={item._id}>
                           <td>{i + 1}</td>

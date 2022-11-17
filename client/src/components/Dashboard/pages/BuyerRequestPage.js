@@ -30,6 +30,7 @@ const BuyerRequestPage = () => {
       if (!data.success) {
         setIsAuthenticated(false);
         navigate("/login");
+        setApprovedItem(true);
       }
       setIsAuthenticated(true);
       setLoader(false);
@@ -65,7 +66,7 @@ const BuyerRequestPage = () => {
             toggle: toggleSidebar,
             sidebarRef,
             approvedItem,
-            setApprovedItem
+            setApprovedItem,
           }}
         >
           {/* Sidebar */}

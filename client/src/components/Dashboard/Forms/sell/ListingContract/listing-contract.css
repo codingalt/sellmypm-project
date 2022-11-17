@@ -5,6 +5,20 @@
     margin: 2.1rem auto;
 }
 
+.true-false-div{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.true-false-div span:nth-child(1){
+    font-size: 1.1rem;
+}
+
+.true-false-div span:nth-child(2){
+    font-size: 1.2rem;
+}
+
 .listing-contract .card{
     width: 100%;
     height: 100%;
@@ -145,6 +159,9 @@
     .listing-contract{
         width: 94%;
     }
+    .listing-contract-btn{
+        margin-top: 2.8rem;
+    }
     .listing-contract .card{
         padding: 1.4rem;
         padding-bottom: 3rem;
@@ -171,5 +188,9 @@
     }
     .listing-contract-btn {
         padding-right: 1rem;
+    }
+    .listing-contract input::-webkit-file-upload-button{
+        width: 55%;
+        height: 2.8rem;
     }
 }

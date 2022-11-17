@@ -14,7 +14,7 @@ import MainContext from "../../../Context/MainContext";
 const PaymentModal = (props) => {
   const [packageType, setPackageType] = useState("monthly");
   const [pkgText, setPkgText] = useState("Monthly");
-  const [pkgValue, setPkgValue] = useState(7.99);
+  const [pkgValue, setPkgValue] = useState(10);
   const [loader, setLoader] = useState(false);
   const { isAuthenticated } = useContext(MainContext);
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ const PaymentModal = (props) => {
       setPkgValue(10);
     } else if (e.target.value === "yearly") {
       setPkgText("Yearly");
-      setPkgValue(99);
+      setPkgValue(100);
     } else {
       setPkgText("Monthly");
       setPkgValue(10);
@@ -59,7 +59,7 @@ const PaymentModal = (props) => {
 
   const handleToken = async (token) => {
     props.onHide();
-    setLoader(true)
+    setLoader(true);
     try {
       const res = await axios.post(`/payment`, {
         token: token.id,
@@ -71,12 +71,11 @@ const PaymentModal = (props) => {
           true,
           "Congrats! Your Premium Subscription Activated Successfully"
         );
-        setLoader(false)
+        setLoader(false);
         navigate("/success");
-
       } else {
         toastHandle(false, "Payment Unsuccessfull! Please Try again");
-        setLoader(false)
+        setLoader(false);
       }
     } catch (error) {
       console.log(error);
